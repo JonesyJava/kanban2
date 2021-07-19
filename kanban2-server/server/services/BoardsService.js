@@ -19,6 +19,10 @@ class BoardsService {
     return board
   }
 
+  async editBoard(id, userId, body) {
+    return await dbContext.Board.findOneAndUpdate(id, userId, body).populate('creatorId')
+  }
+
   async deleteBoard(id) {
     return await dbContext.Board.findByIdAndDelete(id).populate('creatorId')
   }

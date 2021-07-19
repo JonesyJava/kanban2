@@ -10,6 +10,8 @@ export class BoardsController extends BaseController {
     // NOTE: Beyond this point all routes require Authorization tokens (the user must be logged in)
       .use(Auth0Provider.getAuthorizedUserInfo)
       .get('', this.getAllBoards)
+      .get('/:id', this.getBoardsById)
+      .put('/:id', this.editBoard)
       .post('', this.createBoard)
       .delete('/:id', this.deleteBoard)
   }
@@ -22,11 +24,27 @@ export class BoardsController extends BaseController {
     }
   }
 
+  async getBoardsById(req, res, next) {
+    try {
+      return res.send(await boardsService.findBoardById(req.params.id))
+    } catch (error) {
+      next(error)
+    }
+  }
+
   async createBoard(req, res, next) {
     try {
       req.body.creatorId = req.userInfo.id
       const board = await boardsService.createBoard(req.body)
       res.send(await boardsService.findBoardById(board.id))
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async editBoard(req, res, next) {
+    try {
+      res.send(await boardsService.editBoard(req.params.id, req.body))
     } catch (error) {
       next(error)
     }
