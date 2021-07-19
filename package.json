@@ -1,0 +1,13 @@
+{
+    "name": "kanban2",
+    "version": "1.0.0",
+    "scripts": {
+        "build": "npm run setup:client && npm run setup:server",
+        "setup:client": "cd kanban2-client && npm i",
+        "setup:server": "cd kanban2-server && npm i",
+        "start": "node kanban2-server/index.js"
+    },
+    "engines": {
+        "node": "^14.15.4"
+    }
+}
